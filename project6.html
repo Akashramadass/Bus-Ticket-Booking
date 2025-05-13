@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container mt-4 card outline">
+        <h2 style="text-align: center;color: brown;">PAYMENT</h2>
+
+        <div class="row mt-4">
+            <div class="col"> Name</div>
+            <div class="col"><input type="text" class="form-control" id="name" /></div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">Amount</div>
+            <div class="col"><input type="text" class="form-control" id="amount" /></div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">card No</div>
+            <div class="col"><input type="text" class="form-control" id="card" /></div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">Exp Date</div>
+            <div class="col"><input type="date" class="form-control" id="exp"/></div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">Cvv</div>
+            <div class="col"><input type="text" class="form-control" id="cvv"/></div>
+        </div>
+        <div class="row mt-4">
+            <div class="col"><a href="project5.html"class="btn btn-danger" >Back</a></div>
+            <div class="col"><button type="button" class="btn btn-primary" onclick="createAccount()">Pay now</button></div>
+            
+        </div>
+        <div class="row mt-4">
+           <h2> <div id="msg"></div></h2>
+        
+        </div>
+
+    </div>
+
+   <h3> <div id="timer"class="timer"></div></h3>
+    <h2 class="marquee"><marquee>Get 50% Off for Your 1st Booking </marquee></h2>
+    <script>
+        function createAccount(){
+
+            let Name = document.getElementById('name').value;
+            let Amount = document.getElementById('amount').value;
+            let Card = document.getElementById('card').value;
+            let Exp = document.getElementById('exp').value;
+            let Cvv = document.getElementById('cvv').value;
+
+            let requestBody = {
+                nameId : Name,
+                amount : Amount,
+                card : Card,
+                exp : Exp,
+                cvv : Cvv,
+            }
+
+            let request = {
+                method : "POST",
+                headers : { "Content-Type": "application/json"},
+                body : JSON.stringify(requestBody)
+            }
+
+            let apiUrl = "https://retoolapi.dev/Zx2PVw/BankAcc";
+            fetch(apiUrl, request)
+            .then(response => {
+                if(response.ok){
+                    return response.json();
+                }
+            })
+            .then(responseData => {
+                console.log(responseData);
+               
+            })
+
+               
+            if (!Name || !Amount || !Card ||!Exp|| !Cvv) {
+                    alert('Please fill out all fields.');
+                    return;
+                }else{
+                    document.getElementById('msg').innerHTML = " Payment Successfull,Your Seat Is Confirmed .";
+                    document.getElementById('msg').style.backgroundColor = "green";
+
+                }
+
+            setTimeout(() => {
+                    window.location.href = "project2.html";
+                    
+                },2000);
+        }
+
+        let min = 11;
+            let sec = 59;
+            setInterval(()=>{
+                document.getElementById('timer').innerHTML = min + ":" + sec;
+                sec--;
+                if(sec == 0){
+                    min--;
+                    sec =59;
+                }
+            }, 1000);
+
+
+
+         
+    </script>
+
+    <style>
+        .outline{
+            border-style: solid;
+            border-color: black;
+
+        }
+        .marquee{
+            border-style: dashed;
+            border-color: black;
+            margin-top: 30px;
+        }
+
+        .timer{
+
+            margin-left: 1500px;
+
+        }
+    </style>
+    
+</body>
+</html>
